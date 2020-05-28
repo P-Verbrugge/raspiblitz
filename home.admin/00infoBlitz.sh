@@ -37,15 +37,15 @@ if [ ${#hostname} -eq 0 ]; then hostname="raspiblitz"; fi
 
 # for oldnodes
 if [ ${#network} -eq 0 ]; then
-  network="bitcoin"
+  network="Bitcoin"
   litecoinActive=$(sudo ls /mnt/hdd/litecoin/litecoin.conf 2>/dev/null | grep -c 'litecoin.conf')
   if [ ${litecoinActive} -eq 1 ]; then
-    network="litecoin"
+    network="Litecoin"
   else
     network=`sudo cat /home/admin/.network 2>/dev/null`
   fi
   if [ ${#network} -eq 0 ]; then
-    network="bitcoin"
+    network="Bitcoin"
   fi
 fi
 
@@ -163,7 +163,7 @@ fi
 webinterfaceInfo=""
 runningRTL=$(sudo ls /etc/systemd/system/RTL.service 2>/dev/null | grep -c 'RTL.service')
 if [ ${runningRTL} -eq 1 ]; then
-  webinterfaceInfo="web admin --> ${color_green}http://${local_ip}:3000"
+  webinterfaceInfo="Web admin --> ${color_green}http://${local_ip}:3000"
 fi
 
 # CHAIN NETWORK
@@ -270,9 +270,9 @@ else
     else
       item=$(sudo -u bitcoin tail -n 100 /mnt/hdd/lnd/logs/${network}/${chain}net/lnd.log 2> /dev/null | grep "(height" | tail -n1 | awk '{print $10} {print $11} {print $12}' | tr -dc '0-9')
       total=$(sudo -u bitcoin ${network}-cli -datadir=/home/bitcoin/.${network} getblockchaininfo 2>/dev/null | jq -r '.blocks')
-      ln_baseInfo="${color_red} waiting for chain sync"
+      ln_baseInfo="${color_red} Waiting for chain sync"
       if [ ${#item} -gt 0 ]; then
-        ln_channelInfo="scanning ${item}/${total}"
+        ln_channelInfo="Scanning ${item}/${total}"
       fi
     fi
   else
@@ -308,7 +308,7 @@ ${color_yellow}               ${color_gray}${network} Fullnode + Lightning Netwo
 ${color_yellow}        ,/     ${color_yellow}%s
 ${color_yellow}      ,'/      ${color_gray}%s, temp %s°C %s°F
 ${color_yellow}    ,' /       ${color_gray}Free Mem ${color_ram}${ram} ${color_gray} HDDuse ${color_hdd}%s${color_gray}
-${color_yellow}  ,'  /_____,  ${color_gray}ssh admin@${color_green}${local_ip}${color_gray} d${network_rx} u${network_tx}
+${color_yellow}  ,'  /_____,  ${color_gray}SSH admin@${color_green}${local_ip}${color_gray} d${network_rx} u${network_tx}
 ${color_yellow} .'____    ,'  ${color_gray}${webinterfaceInfo}
 ${color_yellow}      /  ,'    ${color_gray}${network} ${color_green}${networkVersion} ${chain}net ${color_gray}Sync ${sync_color}${sync} %s
 ${color_yellow}     / ,'      ${color_gray}${public_addr_pre}${public_color}${public_addr} ${public}${networkConnectionsInfo}
